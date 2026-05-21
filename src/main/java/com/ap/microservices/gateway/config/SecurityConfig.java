@@ -13,7 +13,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		
 		return httpSecurity.authorizeHttpRequests( authorize -> authorize.requestMatchers("/swagger-ui/**",
-				"/api-docs/**"
+				"/api-docs/**", "/aggregate/**", "/v3/api-docs/**"
 				).permitAll().anyRequest()
 				.authenticated()).oauth2ResourceServer( oauth2 -> oauth2.jwt(Customizer.withDefaults())).build();
 		

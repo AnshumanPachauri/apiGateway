@@ -30,7 +30,7 @@ public class Routes {
 
         return GatewayRouterFunctions.route("order_service")
                 .route(
-                    // Changed from "/api/product/" to match the base path and all sub-paths
+                    // Changed from "/api/order/" to match the base path and all sub-paths
                     RequestPredicates.path("/api/order/**"), 
                     HandlerFunctions.http()
                 )
@@ -43,11 +43,26 @@ public class Routes {
 
         return GatewayRouterFunctions.route("inventory_service")
                 .route(
-                    // Changed from "/api/product/" to match the base path and all sub-paths
+                    // Changed from "/api/inventory/" to match the base path and all sub-paths
                     RequestPredicates.path("/api/inventory/**"), 
                     HandlerFunctions.http()
                 )
                 .before(BeforeFilterFunctions.uri("http://localhost:8082"))
                 .build();
     }
+    
+    @Bean
+    public RouterFunction<ServerResponse> productServiceSwaggerRouter() {
+
+        return GatewayRouterFunctions.route("product_service_swagger")
+                .route(
+                    // Changed from "/api/product/" to match the base path and all sub-paths
+                    RequestPredicates.path("/aggregate/product-service/v3/api-docs"), 
+                    HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri("http://localhost:8080")).before(BeforeFilterFunctions.setPath("/api-docs"))
+                .build();
+    }
+    
+    
 }
