@@ -77,4 +77,17 @@ public class Routes {
                 .build();
     }
     
+    @Bean
+    public RouterFunction<ServerResponse> inventoryServiceSwaggerRouter() {
+
+        return GatewayRouterFunctions.route("inventory_service_swagger")
+                .route(
+                    // Changed from "/api/order/" to match the base path and all sub-paths
+                    RequestPredicates.path("/aggregate/inventory-service/v3/api-docs"), 
+                    HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri("http://localhost:8082")).before(BeforeFilterFunctions.setPath("/api-docs"))
+                .build();
+    }
+    
 }
