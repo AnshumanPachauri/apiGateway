@@ -64,5 +64,17 @@ public class Routes {
                 .build();
     }
     
+    @Bean
+    public RouterFunction<ServerResponse> orderServiceSwaggerRouter() {
+
+        return GatewayRouterFunctions.route("order_service_swagger")
+                .route(
+                    // Changed from "/api/order/" to match the base path and all sub-paths
+                    RequestPredicates.path("/aggregate/order-service/v3/api-docs"), 
+                    HandlerFunctions.http()
+                )
+                .before(BeforeFilterFunctions.uri("http://localhost:8081")).before(BeforeFilterFunctions.setPath("/api-docs"))
+                .build();
+    }
     
 }
