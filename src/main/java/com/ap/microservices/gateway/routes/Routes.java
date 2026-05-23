@@ -5,6 +5,9 @@ import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctio
 import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.util.RouteMatcher.Route;
 import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
@@ -88,6 +91,12 @@ public class Routes {
                 )
                 .before(BeforeFilterFunctions.uri("http://localhost:8082")).before(BeforeFilterFunctions.setPath("/api-docs"))
                 .build();
+    }
+    
+    public RouterFunction<ServerResponse> fallBackRoute(){
+    	return GatewayRouterFunctions.route("fallbackRoute")
+    			.GET(".fallbackRoute", request -> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
+    					.body("Service Unavailable Please Try Again Later!!")).build();
     }
     
 }
